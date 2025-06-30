@@ -2,37 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Birthday Countdown</title>
+  <title>Atul's Birthday Countdown</title>
   <style>
     body {
+      background-color: black;
+      color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 20%;
+      margin-top: 10%;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
+      font-size: 2.5em;
     }
-    #countdown {
+    .time-part {
       font-size: 2em;
+      margin: 10px 0;
+    }
+    .timezone {
+      margin-top: 20px;
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
-  <h1>Countdown to My Birthday!</h1>
-  <div id="countdown"></div>
+  <h1>Atul's Birthday in:</h1>
+
+  <div id="days" class="time-part"></div>
+  <div id="hours" class="time-part"></div>
+  <div id="minutes" class="time-part"></div>
+  <div id="seconds" class="time-part"></div>
+
+  <div class="timezone" id="utc-time"></div>
+  <div class="timezone" id="atul-time"></div>
+  <div class="timezone" id="browser-time"></div>
 
   <script>
-    // 🎂 SET YOUR BIRTHDAY HERE
-    const birthday = new Date("2026-05-12T00:00:00"); // change to your birthday
-    const countdown = document.getElementById("countdown");
+    // 🎂 SET Atul's birthday in UTC
+    const birthdayUTC = new Date("2025-06-30T08:09:38Z"); // UTC time
 
     function updateCountdown() {
       const now = new Date();
-      const diff = birthday - now;
+      const diff = birthdayUTC - now;
 
       if (diff <= 0) {
-        countdown.innerHTML = "🎉 Happy Birthday! 🎉";
+        document.body.innerHTML = "<h1>🎉 Happy Birthday atul! 🎉</h1>";
         clearInterval(interval);
         return;
       }
@@ -42,11 +55,26 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
-      countdown.innerHTML = `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+      document.getElementById("days").innerHTML = `${days} days`;
+      document.getElementById("hours").innerHTML = `${hours} hours`;
+      document.getElementById("minutes").innerHTML = `${minutes} minutes`;
+      document.getElementById("seconds").innerHTML = `${seconds} seconds`;
+
+      // Show times in different timezones
+      const utcTime = birthdayUTC.toUTCString();
+      document.getElementById("utc-time").innerHTML = `UTC Timezone: ${utcTime}`;
+
+      // Atul's timezone — let's assume UTC+7
+      const atulOffset = 7 * 60; // minutes
+      const atulTime = new Date(birthdayUTC.getTime() + atulOffset * 60 * 1000);
+      document.getElementById("atul-time").innerHTML = `Atul's Timezone: ${atulTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) } (UTC+7)`;
+
+      // Browser time
+      document.getElementById("browser-time").innerHTML = `Your Browser Timezone: ${birthdayUTC.toLocaleString()}`;
     }
 
     const interval = setInterval(updateCountdown, 1000);
-    updateCountdown(); // initial call
+    updateCountdown();
   </script>
 </body>
 </html>
