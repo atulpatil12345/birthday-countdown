@@ -11,15 +11,36 @@
       text-align: center;
       margin-top: 10%;
     }
+
     h1 {
       font-size: 2.5em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
-    #countdown {
-      font-size: 2em;
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 40px; /* space between blocks */
     }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .number {
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+
+    .label {
+      font-size: 1.2em;
+      margin-top: 5px;
+    }
+
     .timezone {
-      margin-top: 20px;
+      margin-top: 30px;
       font-size: 1.2em;
     }
   </style>
@@ -27,21 +48,38 @@
 <body>
   <h1>Atul's Birthday in:</h1>
 
-  <div id="countdown"></div>
+  <div class="countdown">
+    <div class="time-block">
+      <div class="number" id="days"></div>
+      <div class="label">days</div>
+    </div>
+    <div class="time-block">
+      <div class="number" id="hours"></div>
+      <div class="label">hours</div>
+    </div>
+    <div class="time-block">
+      <div class="number" id="minutes"></div>
+      <div class="label">minutes</div>
+    </div>
+    <div class="time-block">
+      <div class="number" id="seconds"></div>
+      <div class="label">seconds</div>
+    </div>
+  </div>
 
   <div class="timezone" id="utc-time"></div>
-  <div class="timezone" id="Atul-time"></div>
+  <div class="timezone" id="atul-time"></div>
   <div class="timezone" id="browser-time"></div>
 
   <script>
-    const birthdayUTC = new Date("2026-05-12T08:09:38Z"); // SET your birthday UTC
+    const birthdayUTC = new Date("2026-05-12T08:09:38Z"); // your target UTC date
 
     function updateCountdown() {
       const now = new Date();
       const diff = birthdayUTC - now;
 
       if (diff <= 0) {
-        document.body.innerHTML = "<h1>🎉 Happy Birthday Atul! 🎉</h1>";
+        document.body.innerHTML = "<h1>🎉 Happy Birthday atul! 🎉</h1>";
         clearInterval(interval);
         return;
       }
@@ -51,14 +89,17 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
-      document.getElementById("countdown").innerHTML = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
 
       const utcTime = birthdayUTC.toUTCString();
       document.getElementById("utc-time").innerHTML = `UTC Timezone: ${utcTime}`;
 
-      const AtulOffset = 7 * 60;
-      const AtulTime = new Date(birthdayUTC.getTime() + AtulOffset * 60 * 1000);
-      document.getElementById("Atul-time").innerHTML = `Atul's Timezone: ${AtulTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) } (UTC+7)`;
+      const atulOffset = 7 * 60;
+      const atulTime = new Date(birthdayUTC.getTime() + atulOffset * 60 * 1000);
+      document.getElementById("atul-time").innerHTML = `Atul's Timezone: ${atulTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) } (UTC+7)`;
 
       document.getElementById("browser-time").innerHTML = `Your Browser Timezone: ${birthdayUTC.toLocaleString()}`;
     }
