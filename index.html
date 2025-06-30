@@ -27,26 +27,21 @@
 <body>
   <h1>Atul's Birthday in:</h1>
 
-<div id="days"></div>
-<div id="hours"></div>
-<div id="minutes"></div>
-<div id="seconds"></div>
-
+  <div id="countdown"></div>
 
   <div class="timezone" id="utc-time"></div>
-  <div class="timezone" id="atul-time"></div>
+  <div class="timezone" id="Atul-time"></div>
   <div class="timezone" id="browser-time"></div>
 
   <script>
-    // 🎂 SET Atul's birthday in UTC
-    const birthdayUTC = new Date("2026-05-12T08:09:38Z"); // UTC time
+    const birthdayUTC = new Date("2025-06-30T08:09:38Z"); // SET your birthday UTC
 
     function updateCountdown() {
       const now = new Date();
       const diff = birthdayUTC - now;
 
       if (diff <= 0) {
-        document.body.innerHTML = "<h1>🎉 Happy Birthday atul! 🎉</h1>";
+        document.body.innerHTML = "<h1>🎉 Happy Birthday Atul! 🎉</h1>";
         clearInterval(interval);
         return;
       }
@@ -56,22 +51,15 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
+      document.getElementById("countdown").innerHTML = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
 
-      document.getElementById("days").innerHTML = `${days} days`;
-      document.getElementById("hours").innerHTML = `${hours} hours`;
-      document.getElementById("minutes").innerHTML = `${minutes} minutes`;
-      document.getElementById("seconds").innerHTML = `${seconds} seconds`;
-
-      // Show times in different timezones
       const utcTime = birthdayUTC.toUTCString();
       document.getElementById("utc-time").innerHTML = `UTC Timezone: ${utcTime}`;
 
-      // Atul's timezone — let's assume UTC+7
-      const atulOffset = 7 * 60; // minutes
-      const atulTime = new Date(birthdayUTC.getTime() + atulOffset * 60 * 1000);
-      document.getElementById("atul-time").innerHTML = `Atul's Timezone: ${atulTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) } (UTC+7)`;
+      const AtulOffset = 7 * 60;
+      const AtulTime = new Date(birthdayUTC.getTime() + AtulOffset * 60 * 1000);
+      document.getElementById("Atul-time").innerHTML = `Atul's Timezone: ${AtulTime.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) } (UTC+7)`;
 
-      // Browser time
       document.getElementById("browser-time").innerHTML = `Your Browser Timezone: ${birthdayUTC.toLocaleString()}`;
     }
 
